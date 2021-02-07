@@ -1,0 +1,82 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800"><?= $title; ?></h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="btn-group " role="group" aria-label="Basic example">
+                <a href="<?= base_url('admin'); ?>" class="btn btn-primary">Dashboard</a>
+                <a href="<?= base_url('bukutanah/reportbuku'); ?>" class="btn btn-primary">Report Buku</a>
+                <a href="<?= base_url('#'); ?>" class="btn btn-primary">Report</a>
+                <a href="<?= base_url('#'); ?>" class="btn btn-primary">Report</a>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-3">
+            <form action="" method="POST">
+                <div class="input-group mb-4">
+                    <select class="form-control" name="carikata">
+                        <option>Filter By..</option>
+                        <?php foreach ($nohak as $n) { ?>
+                            <option value="<?= $n['nohak']; ?>"><?= $n['nohak']; ?></option>
+                        <?php } ?>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Cari</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- pesan ketika form validasi gagal -->
+            <?= form_error('menu', '<div class="alert alert-danger" role="alert">Data Kosong</div>'); ?>
+            <!-- pesan ketika form validasi gagal -->
+            <!-- jika berhasil -->
+            <?= $this->session->flashdata('message'); ?>
+            <br>
+            <table class="table table-hover table-bordered" id="databuku">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">No Buku</th>
+                        <th scope="col">Kelurahan</th>
+                        <th scope="col">Peminjam</th>
+                        <th scope="col">Tanggal Pinjam</th>
+                        <th scope="col">Tanggal Di Kembalikan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $no = 1; ?>
+                    <?php foreach ($nohak as $n) : ?>
+                        <tr>
+                            <th scope="row"><?= $no; ?></th>
+                            <td><?= $n['nohak'] ?></td>
+                            <td><?= $n['kelurahan'] ?></td>
+                            <td><?= $n['name'] ?></td>
+                            <td><?= $n['create_date'] ?></td>
+                            <td><?= $n['date_done'] ?></td>
+                        </tr>
+                        <?php $no++; ?>
+                    <?php endforeach; ?>
+                    <input type="hidden" name="create_date" value="<?= date("d-m-y"); ?>">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="<?= base_url('assets/'); ?>DataTables/jquery-1.12.0.min.js"></script>
+<script src="<?= base_url('assets/'); ?>DataTables/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#databuku').DataTable();
+    });
+</script>
